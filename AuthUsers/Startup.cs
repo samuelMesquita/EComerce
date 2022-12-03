@@ -25,7 +25,7 @@ namespace AuthUsers
 
             services.AddIdentityEntityFrameworkContextConfiguration(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
-            b => b.MigrationsAssembly("AspNetCore.Jwt.Sample")));
+            b => b.MigrationsAssembly("AuthUsers")));
 
             services.AddJwtConfiguration(Configuration)
             .AddNetDevPackIdentity<IdentityUser>();
