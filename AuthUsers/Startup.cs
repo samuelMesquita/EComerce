@@ -1,4 +1,8 @@
-﻿namespace AuthUsers
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace AuthUsers
 {
     public class Startup : IStartup
     {
@@ -13,6 +17,11 @@
             services.AddMvc();
 
             services.AddEndpointsApiExplorer();
+            services.AddIdentityEntityFrameworkContextConfiguration(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
+            b => b.MigrationsAssembly("AspNetCore.Jwt.Sample")));
+
+            services.AddIdentityConfiguration();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddSwaggerGen();
         }
@@ -27,7 +36,7 @@
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
+            app.UseAuthConfiguration();
         }
 
     }
