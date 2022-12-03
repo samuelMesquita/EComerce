@@ -1,6 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NetDevPack.Identity.Jwt;
+using System.Configuration;
 
 namespace AuthUsers
 {
@@ -17,11 +20,16 @@ namespace AuthUsers
             services.AddMvc();
 
             services.AddEndpointsApiExplorer();
+
+            services.AddIdentityConfiguration();
+
             services.AddIdentityEntityFrameworkContextConfiguration(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
             b => b.MigrationsAssembly("AspNetCore.Jwt.Sample")));
 
-            services.AddIdentityConfiguration();
+            services.AddJwtConfiguration(Configuration)
+            .AddNetDevPackIdentity<IdentityUser>();
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddSwaggerGen();
         }
